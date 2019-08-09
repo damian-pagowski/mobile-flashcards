@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { View, KeyboardAvoidingView } from "react-native";
 import { connect } from "react-redux";
 import { addCard } from "../actions";
-import { _saveCard } from "../utils/api";
+import { saveCard } from "../utils/api";
 import styles from "../resources/styles";
 import { Input, Button } from "react-native-elements";
+import colors from "../resources/colors";
 
 class CreateCard extends Component {
   static navigationOptions = {
@@ -17,15 +18,19 @@ class CreateCard extends Component {
   };
 
   handleSubmit() {
-    let key = this.props.deck.name;
-    let question = this.state.card;
-    let answer = this.state.answer;
-    let card = [{ question, answer }];
+    const key = this.props.currentDeckName;
+    console.log("CURRENT DECK NAME >>> ", key)
+    const card = { ...this.state };
+    const deck = this.props.decks[key];
+    console.log(">>> added CURRENT DECK", JSON.stringify(deck))
 
-    _saveCard({ key, card });
+    // saveCard( deck, card );
 
-    this.props.createCard(key, card);
+    // this.props.createCard(key, card);
     this.setState(() => ({ question: "", answer: "" }));
+    console.log(">>> added card-card", JSON.stringify(card))
+    console.log(">>> added card-props", JSON.stringify(this.props))
+
     this.props.navigation.goBack();
   }
 
@@ -46,7 +51,7 @@ class CreateCard extends Component {
             placeholder="Answer"
           />
           <Button
-            backgroundColor="#03A9F4"
+            backgroundColor={colors.buttonBlue}
             buttonStyle={styles.button}
             title="Submit"
             onPress={() => this.handleSubmit()}

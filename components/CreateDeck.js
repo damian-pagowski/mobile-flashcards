@@ -5,6 +5,7 @@ import { addDeck } from "../actions";
 import { saveDeck } from "../utils/api";
 import styles from "../resources/styles";
 import { Input, Button } from "react-native-elements";
+import colors from "../resources/colors";
 
 class CreateDeck extends Component {
   static navigationOptions = {
@@ -23,8 +24,6 @@ class CreateDeck extends Component {
     saveDeck(deck);
     this.setState({ name: "" });
     this.props.navigation.navigate("DeckDetails", { deckName: deck.name });
-    // this.props.navigation.navigate("DeckList");
-
   }
 
   render() {
@@ -38,7 +37,7 @@ class CreateDeck extends Component {
             placeholder="What is the name of new deck?"
           />
           <Button
-            backgroundColor="#03A9F4"
+            backgroundColor={colors.buttonBlue}
             buttonStyle={styles.button}
             title="Submit"
             onPress={() => this.handleSubmit()}
