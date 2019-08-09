@@ -17,6 +17,17 @@ class DeckDetails extends Component {
             {deck.cards.length}
           </Text>
         </Card>
+
+
+
+        <View style={styles.footer}>
+          <Button
+            backgroundColor={colors.buttonBlue}
+            buttonStyle={styles.button}
+            title='Add Question'
+            onPress={() => this.props.navigation.navigate('CreateCard', { deckName: currentDeckName })}
+          />
+        </View>
       </View>
     )
   }
