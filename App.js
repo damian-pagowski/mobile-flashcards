@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import reducer from './reducers'
+import decks from './reducers/index'
 import DeckList from './components/DeckList'
 import DeckDetails from './components/DeckDetails'
 import Quiz from './components/Quiz'
@@ -14,7 +14,7 @@ import {
 } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 
-const store = createStore(reducer)
+const store = createStore(decks)
 
 const TabNavigator = createMaterialTopTabNavigator({
   DeckList: {

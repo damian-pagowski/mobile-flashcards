@@ -2,27 +2,29 @@ import React, { Component } from "react";
 import { View, KeyboardAvoidingView } from "react-native";
 import { connect } from "react-redux";
 import { addDeck } from "../actions";
-import { _saveDeck } from "../utils/api";
+import { saveDeck } from "../utils/api";
 import styles from "../resources/styles";
 import { Input, Button } from "react-native-elements";
 
 class CreateDeck extends Component {
   static navigationOptions = {
-    title: "New Deck",
+    name: "New Deck",
   };
 
   state = { name: "" };
 
   handleSubmit() {
-    const name = this.state.title;
+    const name = this.state.name;
     const deck = {
       name,
       cards: [],
     };
-    this.props.addDeck(name, deck);
-    _saveDeck({ name, deck });
+    this.props.addDeck(deck);
+    saveDeck(deck);
     this.setState({ name: "" });
-    this.props.navigation.navigate("DeckDetails", { deck });
+    // this.props.navigation.navigate("DeckDetails", { deck });
+    this.props.navigation.navigate("DeckList");
+
   }
 
   render() {
@@ -31,9 +33,9 @@ class CreateDeck extends Component {
         <View style={styles.content}>
           <Input
             style={styles.input}
-            onChangeText={title => this.setState({ title })}
+            onChangeText={name => this.setState({ name })}
             value={this.state.text}
-            placeholder="What is the title of new deck?"
+            placeholder="What is the name of new deck?"
           />
           <Button
             backgroundColor="#03A9F4"
@@ -49,7 +51,7 @@ class CreateDeck extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addDeck: (name, deck) => dispatch(addDeck({ [name]: deck })),
+    addDeck: (deck) => dispatch(addDeck(deck)),
   };
 };
 

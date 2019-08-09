@@ -7,7 +7,12 @@ const styles = StyleSheet.create({
   },
 
   footer: {
-    padding: 45
+    padding: 40
+  },
+  header: {
+    textAlign: 'center',
+    marginTop: 20,
+    padding: 40
   },
 
   textCenter: {

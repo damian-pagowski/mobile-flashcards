@@ -1,51 +1,34 @@
-import React, { Component } from "react";
-import { View } from "react-native";
-import { connect } from "react-redux";
-import styles from "../resources/styles";
-import { Text, Card, Button } from "react-native-elements";
+import React, { Component } from 'react'
+import { View } from 'react-native'
+import { connect } from 'react-redux'
+import styles from '../resources/styles'
+import { Text, Card, Button } from 'react-native-elements'
+import colors from '../resources/colors'
 
 class DeckDetails extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { deck } = navigation.state.params;
-    return {
-      title: deck.name,
-    };
-  };
-
-  render() {
-    const { deck, navigation } = this.props;
+  render () {
+    const currentDeckName = this.props.navigation.getParam('deckName', 'none')
+    const deck = this.props.decks[currentDeckName] ? this.props.decks[currentDeckName] : {name : "none", cards: []}
     return (
       <View style={styles.container}>
-           <Card title={deck.title.toUpperCase()}>
-          <Text style={styles.textCenter}>Number of Questions:</Text>
+        <Card title={deck.name.toUpperCase()}>
+          <Text style={styles.header}>Number of Questions:</Text>
           <Text h3 style={styles.textCenter}>
             {deck.cards.length}
           </Text>
         </Card>
-        <View style={styles.footer}>
-          <Button
-            backgroundColor="#03A9F4"
-            buttonStyle={styles.button}
-            title="Add Question"
-            onPress={() => navigation.navigate("CreateCard", { deck: deck })}
-          />
-          {deck.questions.length > 0 &&
-            <Button
-              backgroundColor="#03A9F4"
-              buttonStyle={styles.button}
-              title="Start Quiz"
-              onPress={() => navigation.navigate("Quiz", { deck: deck })}
-            />}
-        </View>
       </View>
-    );
+    )
   }
 }
 
-const mapStateToProps = ({decks}, props) => {
+const mapStateToProps = (state, props) => {
+  console.log('mapStateToProps > decks > ', JSON.stringify(state))
+  console.log('mapStateToProps > props >', JSON.stringify(Object.keys(props)))
+  console.log('>>>')
   return {
-    deck: decks[props.navigation.state.params.deck.name],
-  };
-};
+    decks: state
+  }
+}
 
-export default connect(mapStateToProps)(DeckDetails);
+export default connect(mapStateToProps)(DeckDetails)

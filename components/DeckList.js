@@ -11,11 +11,16 @@ const RenderedItem = ({ card, navigation }) => {
     <ListItem
       component={TouchableOpacity}
       onPress={() => {
-        navigation.navigate("DeckDetails", { card });
+        navigation.navigate("DeckDetails", { deckName: card.name });
       }}
       title={card.name || "Unknown"}
-      subtitle={"Questions: " + card.cards ? card.cards.length: 0}
-      leftAvatar={{ title: card.name && card.name.length > 0 ? card.name.charAt(0).toUpperCase(): "?" }}
+      subtitle={"Questions: " + card.cards ? card.cards.length : 0}
+      leftAvatar={{
+        title:
+          card.name && card.name.length > 0
+            ? card.name.charAt(0).toUpperCase()
+            : "?",
+      }}
     />
   );
 };
