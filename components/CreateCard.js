@@ -59,7 +59,7 @@ class CreateCard extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    deck: props.navigation.state.params.deck,
+    currentDeckName : props.navigation.getParam('deckName', 'none'),
     decks: state,
   };
 };

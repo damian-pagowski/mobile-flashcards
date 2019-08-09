@@ -22,8 +22,8 @@ class CreateDeck extends Component {
     this.props.addDeck(deck);
     saveDeck(deck);
     this.setState({ name: "" });
-    // this.props.navigation.navigate("DeckDetails", { deck });
-    this.props.navigation.navigate("DeckList");
+    this.props.navigation.navigate("DeckDetails", { deckName: deck.name });
+    // this.props.navigation.navigate("DeckList");
 
   }
 
@@ -34,7 +34,7 @@ class CreateDeck extends Component {
           <Input
             style={styles.input}
             onChangeText={name => this.setState({ name })}
-            value={this.state.text}
+            value={this.state.name}
             placeholder="What is the name of new deck?"
           />
           <Button
