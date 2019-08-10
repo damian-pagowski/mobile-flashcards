@@ -27,18 +27,21 @@ class CreateCard extends Component {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <View style={styles.content}>
-          <Input
-            style={styles.input}
-            onChangeText={question => this.setState({ question })}
-            value={this.state.question}
-            placeholder="Question"
-          />
-          <Input
-            style={styles.input}
-            onChangeText={answer => this.setState({ answer })}
-            value={this.state.answer}
-            placeholder="Answer"
-          />
+          <View style={styles.createCardInputGroup}>
+            <Input
+              style={styles.input}
+              onChangeText={question => this.setState({ question })}
+              value={this.state.question}
+              placeholder="Question"
+            />
+            <Input
+              style={styles.input}
+              onChangeText={answer => this.setState({ answer })}
+              value={this.state.answer}
+              placeholder="Answer"
+            />
+          </View>
+
           <Button
             backgroundColor={colors.buttonBlue}
             buttonStyle={styles.button}

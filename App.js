@@ -35,11 +35,15 @@ const StackNavigator = createStackNavigator({
   DeckDetails: {
     screen: DeckDetails,
     navigationOptions: () => ({
-      title: `Deck Details`,
-      headerTruncatedBackTitle: `Deck List`
+      title: `Deck Details`
     })
   },
-  Quiz: { screen: Quiz },
+  Quiz: {
+    screen: Quiz,
+    navigationOptions: () => ({
+      title: `Quiz`
+    })
+  },
   CreateDeck: {
     screen: CreateDeck,
     navigationOptions: () => ({

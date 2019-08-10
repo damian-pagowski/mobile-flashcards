@@ -1,135 +1,117 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Text, View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 // import {
 //   clearLocalNotification,
 //   setLocalNotification,
 // } from "../utils/notifications";
 import styles from "../resources/styles";
-import FlipCard from 'react-native-flip-card'
-import { Card, Button, Badge, Icon } from 'react-native-elements'
+import FlipCard from "react-native-flip-card";
+import { Card, Button, Icon, Text } from "react-native-elements";
+import colors from "../resources/colors";
+const CORRECT = "correct";
+const WRONG = "wrong";
 
 class Quiz extends Component {
   static navigationOptions = {
-    title: "Quiz",
+    name: "Quiz",
   };
 
   state = {
     current: 0,
-    correctAnswers: 0,
-    showQuestion: true,
-    showResults: false,
+    scores: 0,
+    isFinished: false,
   };
 
-  toggleView() {
-    this.setState(previousState => ({
-      showQuestion: !previousState.showQuestion,
-    }));
-  }
-
-  submitAnswer(status) {
-    if (status === "correct") {
-      this.setState(previousState => ({
-        correctAnswers: previousState.correctAnswers + 1,
-      }));
-    }
-
-    // clearLocalNotification().then(setLocalNotification);
-
-    this.changeQuestion();
-  }
-
-  changeQuestion() {
-    if (this.state.current === this.props.questions.length - 1) {
-      this.setState(previousState => ({ showResults: true }));
-    } else {
-      this.setState(previousState => ({ current: previousState.current + 1 }));
-    }
-  }
-
-  calculatePrecentage() {
-    let value = this.state.correctAnswers / this.props.questions.length * 100;
-    return parseFloat(value) + "%";
-  }
-
   render() {
-    let question = this.props.questions[this.state.current].question;
-    let answer = this.props.questions[this.state.current].answer;
-
-    return this.state.showResults === false
+    const numberOfQuestions = this.props.questions.length;
+    return this.state.isFinished
       ? <View style={styles.container}>
-          <View>
-            <Text style={styles.cardsLeft}>{`Card ${this.state.current +
-              1} of ${this.props.questions.length}`}</Text>
-          </View>
-          <View style={styles.content}>
-            <View style={styles.deck}>
-              <Text style={styles.title}>
-                {this.state.showQuestion ? question : answer}
-              </Text>
-              <TouchableOpacity onPress={() => this.toggleView()}>
-                <Text style={styles.toggle}>
-                  {this.state.showQuestion ? "Show Answer" : "Show Question"}
-                </Text>
-              </TouchableOpacity>
+          <View style={styles.headerQuizContainer}>
+            <Text style={styles.textCenter}>
+              Your Result is {this.getPercentage()}%
+            </Text>
+            <View style={styles.iconContainerQuiz}>
+              <Icon
+                raised
+                name="trophy"
+                type="font-awesome"
+                color={colors.buttonBlue}
+              />
             </View>
           </View>
-          <View style={styles.footer}>
-            <TouchableOpacity
-              style={[
-                styles.buttonPlain,
-                { backgroundColor: "#7AC74F", marginBottom: 10 },
-              ]}
-              onPress={() => this.submitAnswer("correct")}
-            >
-              <Text style={styles.buttonBlackText}>Correct</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.buttonPlain, { backgroundColor: "#DB504A" }]}
-              onPress={() => this.submitAnswer("incorrect")}
-            >
-              <Text style={styles.buttonBlackText}>Incorrect</Text>
-            </TouchableOpacity>
+
+          <View style={styles.buttonsInFooterQuiz}>
+            <Button
+              buttonStyle={styles.buttonGreenQuiz}
+              title="Try Again"
+              onPress={() => this.restartQuiz()}
+            />
           </View>
         </View>
       : <View style={styles.container}>
-          <View style={styles.content}>
-            <View style={styles.deck}>
-              <Text style={styles.title}>
-                Your Result is {this.calculatePrecentage()}
-              </Text>
-            </View>
+          {/* question number */}
+          <View style={styles.headerQuizContainer}>
+            <Text style={styles.textCenter}>
+              {this.props.deckName}
+            </Text>
+            <Text style={styles.textCenter}>
+              {this.state.current + 1} / {numberOfQuestions}
+            </Text>
           </View>
-          <View style={styles.footer}>
-            <TouchableOpacity
-              style={[styles.button, { marginBottom: 10 }]}
-              onPress={() =>
-                this.props.navigation.navigate("Quiz", {
-                  card: this.props.card,
-                })}
-            >
-              <Text style={styles.buttonText}>Restart Quiz</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, { backgroundColor: "#000" }]}
-              onPress={() =>
-                this.props.navigation.navigate("DeckDetails", {
-                  card: this.props.card,
-                })}
-            >
-              <Text style={[styles.buttonText, { color: "#FFF" }]}>
-                Back to Deck
-              </Text>
-            </TouchableOpacity>
+          {/* buttons */}
+          <View style={styles.buttonsInFooterQuiz}>
+            <Button
+              buttonStyle={styles.buttonGreenQuiz}
+              title="Correct"
+              onPress={() => this.submitResult(CORRECT)}
+              disabled={this.state.isFinished}
+            />
+            <Button
+              buttonStyle={styles.buttonRedQuiz}
+              title="Wrong"
+              onPress={() => this.submitResult(WRONG)}
+              disabled={this.state.isFinished}
+            />
           </View>
         </View>;
+  }
+
+  getPercentage() {
+    return ((this.state.scores/ this.props.questions.length ) * 100).toFixed(0)
+  }
+  restartQuiz() {
+    this.setState({
+      current: 0,
+      scores: 0,
+      isFinished: false,
+    });
+  }
+  submitResult(result) {
+    if (result === CORRECT) {
+      this.setState({ ...this.state, scores: ++this.state.scores });
+    }
+    if (this.state.current < this.props.questions.length - 1) {
+      this.setState({ ...this.state, current: ++this.state.current });
+    } else {
+      this.setState({ ...this.state, isFinished: true });
+    }
+    console.log("SCORES>>", this.state.scores);
+    console.log("CURRENT>>", this.state.current);
+    console.log("NBR OF Q>>", this.props.questions.length);
   }
 }
 
 const mapStateToProps = (state, props) => {
+  const deckName = props.navigation.getParam("deckName", "none");
+  const questions = state[deckName].cards;
+
+  console.log("deckName: ", deckName);
+  console.log("state: ", JSON.stringify(state[deckName].cards));
+
   return {
-    card: props.navigation.state.params.card,
-    questions: props.navigation.state.params.card.questions,
+    deckName,
+    questions,
   };
 };
 
