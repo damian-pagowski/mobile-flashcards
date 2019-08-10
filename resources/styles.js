@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap'
   },
   iconContainerQuiz: {
-    paddingTop:50,
+    paddingTop: 50,
     flexDirection: 'row',
     justifyContent: 'center',
     flexWrap: 'wrap'
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
   },
   flipCardContainer: { flex: 4 },
   headerQuizContainer: {
+    marginTop: 50,
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center'

@@ -59,6 +59,19 @@ class Quiz extends Component {
               {this.state.current + 1} / {numberOfQuestions}
             </Text>
           </View>
+          {/* card */}
+          <View style={styles.flipCardContainer}>
+            <FlipCard>
+              {/* Face Side */}
+              <View style={styles.flipCardFront}>
+                <Text style={styles.textCenter}>{ this.props.questions[this.state.current]["question"]}</Text>
+              </View>
+              {/* Back Side */}
+              <View style={styles.flipCardBack}>
+              <Text style={styles.textCenter}>{ this.props.questions[this.state.current]["answer"]}</Text>
+              </View>
+            </FlipCard>
+          </View>
           {/* buttons */}
           <View style={styles.buttonsInFooterQuiz}>
             <Button
@@ -78,7 +91,7 @@ class Quiz extends Component {
   }
 
   getPercentage() {
-    return ((this.state.scores/ this.props.questions.length ) * 100).toFixed(0)
+    return (this.state.scores / this.props.questions.length * 100).toFixed(0);
   }
   restartQuiz() {
     this.setState({

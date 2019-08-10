@@ -30,12 +30,15 @@ class CreateDeck extends Component {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <View style={styles.content}>
-          <Input
-            style={styles.input}
-            onChangeText={name => this.setState({ name })}
-            value={this.state.name}
-            placeholder="What is the name of new deck?"
-          />
+          <View style={styles.createCardInputGroup}>
+            <Input
+              style={styles.input}
+              onChangeText={name => this.setState({ name })}
+              value={this.state.name}
+              placeholder="What is the name of new deck?"
+            />
+          </View>
+
           <Button
             backgroundColor={colors.buttonBlue}
             buttonStyle={styles.button}
@@ -51,7 +54,7 @@ class CreateDeck extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addDeck: (deck) => dispatch(addDeck(deck)),
+    addDeck: deck => dispatch(addDeck(deck)),
   };
 };
 
