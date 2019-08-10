@@ -8,10 +8,6 @@ import { Input, Button } from "react-native-elements";
 import colors from "../resources/colors";
 
 class CreateCard extends Component {
-  static navigationOptions = {
-    title: "Add Question",
-  };
-
   state = {
     question: "",
     answer: "",
@@ -19,21 +15,11 @@ class CreateCard extends Component {
 
   handleSubmit() {
     const key = this.props.currentDeckName;
-    console.log("CURRENT DECK NAME >>> ", key);
     const card = { ...this.state };
     const deck = this.props.decks[key];
-    console.log(">>> added CURRENT DECK", JSON.stringify(deck));
-    console.log(">>> added CURRENT DECK > CARD", JSON.stringify(card));
-
-    console.log(">>> ADDING CARD PROPS OBJECTS>> ", JSON.stringify(Object.keys(this.props)));
-    this.props.dispatch(addCard({ key, card }))
-    saveCard( deck, card );
-    // >>> ADDING CARD PROPS OBJECTS>>  ["screenProps","navigation","currentDeckName","decks","dispatch"]
-    // this.props.createCard(key, card);
+    this.props.dispatch(addCard({ key, card }));
+    // saveCard(deck, card);
     this.setState(() => ({ question: "", answer: "" }));
-    console.log(">>> added card-card", JSON.stringify(card));
-    console.log(">>> added card-props", JSON.stringify(this.props));
-
     this.props.navigation.goBack();
   }
 
@@ -57,6 +43,9 @@ class CreateCard extends Component {
             backgroundColor={colors.buttonBlue}
             buttonStyle={styles.button}
             title="Submit"
+            disabled={
+              this.state.answer.length < 1 || this.state.question.length < 1
+            }
             onPress={() => this.handleSubmit()}
           />
         </View>
@@ -71,11 +60,5 @@ const mapStateToProps = (state, props) => {
     decks: state,
   };
 };
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     createCard: (name, card) => dispatch(addCard({ name, card })),
-//   };
-// };
 
 export default connect(mapStateToProps)(CreateCard);

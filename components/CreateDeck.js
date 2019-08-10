@@ -40,6 +40,7 @@ class CreateDeck extends Component {
             backgroundColor={colors.buttonBlue}
             buttonStyle={styles.button}
             title="Submit"
+            disabled={this.state.name.length < 1}
             onPress={() => this.handleSubmit()}
           />
         </View>

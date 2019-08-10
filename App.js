@@ -12,41 +12,51 @@ import {
   createStackNavigator,
   createAppContainer
 } from 'react-navigation'
-import { Ionicons } from '@expo/vector-icons'
+import { View, Button } from 'react-native'
 
 const store = createStore(decks)
 
 const TabNavigator = createMaterialTopTabNavigator({
   DeckList: {
-    screen: DeckList,
-    navigationOptions: {
-      tabBarLabel: 'Decks',
-      tabBarIcon: ({ tintColor }) =>
-        <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
-    }
+    screen: DeckList
   },
   CreateDeck: {
-    screen: CreateDeck,
-    navigationOptions: {
-      tabBarLabel: 'New Deck',
-      tabBarIcon: ({ tintColor }) =>
-        <Ionicons name='ios-add-circle' size={30} color={tintColor} />
-    }
+    screen: CreateDeck
   }
 })
 
 const StackNavigator = createStackNavigator({
-  Home: { screen: TabNavigator },
-  DeckDetails: { screen: DeckDetails },
+  Home: {
+    screen: TabNavigator,
+    navigationOptions: () => ({
+      title: `Mobile FlashCards`
+    })
+  },
+  DeckDetails: {
+    screen: DeckDetails,
+    navigationOptions: () => ({
+      title: `Deck Details`,
+      headerTruncatedBackTitle: `Deck List`
+    })
+  },
   Quiz: { screen: Quiz },
-  CreateDeck: { screen: CreateDeck },
-  CreateCard: { screen: CreateCard }
+  CreateDeck: {
+    screen: CreateDeck,
+    navigationOptions: () => ({
+      title: `Create Deck`
+    })
+  },
+  CreateCard: {
+    screen: CreateCard,
+    navigationOptions: () => ({
+      title: `Create Card`
+    })
+  }
 })
 
 const AppContainer = createAppContainer(StackNavigator)
 
 export default class App extends Component {
-
   render () {
     return (
       <Provider store={store}>

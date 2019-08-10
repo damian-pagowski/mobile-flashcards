@@ -1,14 +1,20 @@
-import React, { Component } from 'react'
-import { View } from 'react-native'
-import { connect } from 'react-redux'
-import styles from '../resources/styles'
-import { Text, Card, Button } from 'react-native-elements'
-import colors from '../resources/colors'
+import React, { Component } from "react";
+import { View, Alert } from "react-native";
+import { connect } from "react-redux";
+import styles from "../resources/styles";
+import { Text, Card, Button, Icon } from "react-native-elements";
+import colors from "../resources/colors";
+import { removeDeck } from "../actions";
+import { deleteDeck } from "../utils/api";
+
 
 class DeckDetails extends Component {
-  render () {
-    const currentDeckName = this.props.navigation.getParam('deckName', 'none')
-    const deck = this.props.decks[currentDeckName] ? this.props.decks[currentDeckName] : {name : "none", cards: []}
+  
+  render() {
+    const currentDeckName = this.props.navigation.getParam("deckName", "none");
+    const deck = this.props.decks[currentDeckName]
+      ? this.props.decks[currentDeckName]
+      : { name: "none", cards: [] };
     return (
       <View style={styles.container}>
         <Card title={deck.name.toUpperCase()}>
@@ -21,22 +27,50 @@ class DeckDetails extends Component {
           <Button
             backgroundColor={colors.buttonBlue}
             buttonStyle={styles.button}
-            title='Add Question'
-            onPress={() => this.props.navigation.navigate('CreateCard', { deckName: currentDeckName })}
+            title="Add Question"
+            onPress={() =>
+              this.props.navigation.navigate("CreateCard", {
+                deckName: currentDeckName,
+              })}
+          />
+          <Button
+            backgroundColor={colors.buttonBlue}
+            buttonStyle={styles.button}
+            title="Start Quiz Question"
+            disabled={deck.cards.length < 1}
+            // onPress={() =>
+            //   this.props.navigation.navigate("CreateCard", {
+            //     deckName: currentDeckName,
+            //   })}
+          />
+          <Button
+            backgroundColor={colors.buttonRed}
+            buttonStyle={styles.button}
+            title="Delete Deck"
+            onPress={() => Alert.alert(
+              'Removing deck',
+              'Are you sure you want remove this deck? It cannot be undone.',
+              [
+                {text: 'Cancel', onPress: () => console.log('Cancel Pressed - do nothing'), style: 'cancel'},
+                {text: 'Delete', onPress: () => {
+                  console.log(JSON.stringify(Object.keys(this.props))) // TODO REMOVE 
+                  this.props.dispatch(removeDeck(deck))
+                  this.props.navigation.goBack();
+                }},
+              ],
+              { cancelable: false }
+            )}
           />
         </View>
       </View>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state, props) => {
-  console.log('mapStateToProps > decks > ', JSON.stringify(state))
-  console.log('mapStateToProps > props >', JSON.stringify(Object.keys(props)))
-  console.log('>>>')
   return {
-    decks: state
-  }
-}
+    decks: state,
+  };
+};
 
-export default connect(mapStateToProps)(DeckDetails)
+export default connect(mapStateToProps)(DeckDetails);

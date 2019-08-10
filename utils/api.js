@@ -16,8 +16,14 @@ export const saveDeck = deck => {
   )
 }
 
-export const saveCard = (deck, card) => {
+export const deleteDeck = deck => {
   return retrieveData().then(decks => {
-    AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY, JSON.stringify(decks[deck.name].cards.push(card)))
+    const newDecks = { ...decks }
+    delete newDecks[deck.name]
+    AsyncStorage.setItem(FLASHCARD_STORAGE_KEY, JSON.stringify(newDecks))
   })
+}
+
+export const saveCard = (deck, card) => {
+  AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY, JSON.stringify(decks[deck.name].cards.push(card)))
 }
