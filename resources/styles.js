@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   createCardInputGroup: {
-    paddingTop: 50,
-    paddingBottom: 50
+    paddingTop: 20,
+    paddingBottom: 20
   }
 })
 

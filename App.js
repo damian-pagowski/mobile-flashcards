@@ -16,14 +16,26 @@ import { View, Button } from 'react-native'
 
 const store = createStore(decks)
 
-const TabNavigator = createMaterialTopTabNavigator({
-  DeckList: {
-    screen: DeckList
+const TabNavigator = createMaterialTopTabNavigator(
+  {
+    DeckList: {
+      screen: DeckList
+    },
+    CreateDeck: {
+      screen: CreateDeck
+    }
   },
-  CreateDeck: {
-    screen: CreateDeck
+  {
+    tabBarOptions: {
+      style: {
+        backgroundColor: 'white',
+      },
+      labelStyle: {
+        color: 'black',
+      },
+    }
   }
-})
+)
 
 const StackNavigator = createStackNavigator({
   Home: {

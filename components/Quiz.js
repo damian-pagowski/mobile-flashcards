@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { View, TouchableOpacity } from "react-native";
-// import {
-//   clearLocalNotification,
-//   setLocalNotification,
-// } from "../utils/notifications";
+import {
+  clearLocalNotification,
+  setLocalNotification,
+} from "../utils/notification";
 import styles from "../resources/styles";
 import FlipCard from "react-native-flip-card";
 import { Card, Button, Icon, Text } from "react-native-elements";
@@ -23,6 +23,9 @@ class Quiz extends Component {
     isFinished: false,
   };
 
+  componentDidMount() {
+    clearLocalNotification().then(setLocalNotification);
+  }
   render() {
     const numberOfQuestions = this.props.questions.length;
     return this.state.isFinished
@@ -64,11 +67,15 @@ class Quiz extends Component {
             <FlipCard>
               {/* Face Side */}
               <View style={styles.flipCardFront}>
-                <Text style={styles.textCenter}>{ this.props.questions[this.state.current]["question"]}</Text>
+                <Text style={styles.textCenter}>
+                  {this.props.questions[this.state.current]["question"]}
+                </Text>
               </View>
               {/* Back Side */}
               <View style={styles.flipCardBack}>
-              <Text style={styles.textCenter}>{ this.props.questions[this.state.current]["answer"]}</Text>
+                <Text style={styles.textCenter}>
+                  {this.props.questions[this.state.current]["answer"]}
+                </Text>
               </View>
             </FlipCard>
           </View>
