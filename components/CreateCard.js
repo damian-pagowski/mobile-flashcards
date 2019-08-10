@@ -19,17 +19,20 @@ class CreateCard extends Component {
 
   handleSubmit() {
     const key = this.props.currentDeckName;
-    console.log("CURRENT DECK NAME >>> ", key)
+    console.log("CURRENT DECK NAME >>> ", key);
     const card = { ...this.state };
     const deck = this.props.decks[key];
-    console.log(">>> added CURRENT DECK", JSON.stringify(deck))
+    console.log(">>> added CURRENT DECK", JSON.stringify(deck));
+    console.log(">>> added CURRENT DECK > CARD", JSON.stringify(card));
 
-    // saveCard( deck, card );
-
+    console.log(">>> ADDING CARD PROPS OBJECTS>> ", JSON.stringify(Object.keys(this.props)));
+    this.props.dispatch(addCard({ key, card }))
+    saveCard( deck, card );
+    // >>> ADDING CARD PROPS OBJECTS>>  ["screenProps","navigation","currentDeckName","decks","dispatch"]
     // this.props.createCard(key, card);
     this.setState(() => ({ question: "", answer: "" }));
-    console.log(">>> added card-card", JSON.stringify(card))
-    console.log(">>> added card-props", JSON.stringify(this.props))
+    console.log(">>> added card-card", JSON.stringify(card));
+    console.log(">>> added card-props", JSON.stringify(this.props));
 
     this.props.navigation.goBack();
   }
@@ -64,15 +67,15 @@ class CreateCard extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    currentDeckName : props.navigation.getParam('deckName', 'none'),
+    currentDeckName: props.navigation.getParam("deckName", "none"),
     decks: state,
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    createCard: (name, card) => dispatch(addCard({ name, card })),
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     createCard: (name, card) => dispatch(addCard({ name, card })),
+//   };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateCard);
+export default connect(mapStateToProps)(CreateCard);
