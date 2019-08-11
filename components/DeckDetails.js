@@ -5,7 +5,7 @@ import styles from '../resources/styles'
 import { Text, Card, Button, Icon } from 'react-native-elements'
 import colors from '../resources/colors'
 import { removeDeck } from '../actions'
-import { deleteDeck } from '../utils/api'
+import { removeEntry } from '../utils/api'
 
 class DeckDetails extends Component {
   render () {
@@ -59,6 +59,7 @@ class DeckDetails extends Component {
                     text: 'Delete',
                     onPress: () => {
                       console.log(JSON.stringify(Object.keys(this.props))) // TODO REMOVE
+                      removeEntry(currentDeckName)
                       this.props.dispatch(removeDeck(deck))
                       this.props.navigation.goBack()
                     }

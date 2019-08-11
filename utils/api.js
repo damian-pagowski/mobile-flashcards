@@ -1,29 +1,32 @@
 import { AsyncStorage } from 'react-native'
 
-export const FLASHCARD_STORAGE_KEY = 'Udacity:MobileFlashCards'
+const STORAGE_KEY = 'Mobileflashcard:data'
 
-export const retrieveData = () => {
-  return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then(results => {
-    const data = JSON.parse(results)
-    return data
-  })
+export function fetchData () {
+  return AsyncStorage.getItem(STORAGE_KEY)
 }
 
-export const saveDeck = deck => {
+export function addQuestion ({ deck, question }) {
+  const entry = { ...deck }
+  entry.cards = [...entry.cards, question]
+  console.log('updated deck', JSON.stringify(entry))
+  return saveEntry({ entry, key: deck.name })
+}
+
+export function saveEntry ({ entry, key }) {
   return AsyncStorage.mergeItem(
-    FLASHCARD_STORAGE_KEY,
-    JSON.stringify({ [deck.name]: deck })
+    STORAGE_KEY,
+    JSON.stringify({
+      [key]: entry
+    })
   )
 }
 
-export const deleteDeck = deck => {
-  return retrieveData().then(decks => {
-    const newDecks = { ...decks }
-    delete newDecks[deck.name]
-    AsyncStorage.setItem(FLASHCARD_STORAGE_KEY, JSON.stringify(newDecks))
+export function removeEntry (key) {
+  return AsyncStorage.getItem(STORAGE_KEY).then(results => {
+    const data = JSON.parse(results)
+    data[key] = undefined
+    delete data[key]
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data))
   })
-}
-
-export const saveCard = (deck, card) => {
-  AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY, JSON.stringify(decks[deck.name].cards.push(card)))
 }

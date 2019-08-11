@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { View, TouchableOpacity, FlatList } from "react-native";
 import { getDecks } from "../actions";
-import { retrieveData } from "../utils/api";
+import { fetchData } from "../utils/api";
 import styles from "../resources/styles";
 import { ListItem } from "react-native-elements";
 
@@ -31,7 +31,10 @@ class DeckList extends Component {
   };
 
   componentDidMount() {
-    retrieveData().then(decks => this.props.dispatch(getDecks(decks)));
+    fetchData().then((value) => {
+      const decks = JSON.parse(value)
+      this.props.dispatch(getDecks(decks))
+    });
   }
 
   keyExtractor = (item, index) => index.toString();

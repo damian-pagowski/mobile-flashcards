@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { View, KeyboardAvoidingView } from "react-native";
 import { connect } from "react-redux";
 import { addDeck } from "../actions";
-import { saveDeck } from "../utils/api";
 import styles from "../resources/styles";
 import { Input, Button } from "react-native-elements";
 import colors from "../resources/colors";
+import { saveEntry } from "../utils/api";
 
 class CreateDeck extends Component {
   static navigationOptions = {
@@ -21,7 +21,7 @@ class CreateDeck extends Component {
       cards: [],
     };
     this.props.addDeck(deck);
-    saveDeck(deck);
+    saveEntry({key: name, entry: deck})
     this.setState({ name: "" });
     this.props.navigation.navigate("DeckDetails", { deckName: deck.name });
   }

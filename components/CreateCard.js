@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, KeyboardAvoidingView } from "react-native";
 import { connect } from "react-redux";
 import { addCard } from "../actions";
-import { saveCard } from "../utils/api";
+import { addQuestion } from "../utils/api";
 import styles from "../resources/styles";
 import { Input, Button } from "react-native-elements";
 import colors from "../resources/colors";
@@ -18,7 +18,7 @@ class CreateCard extends Component {
     const card = { ...this.state };
     const deck = this.props.decks[key];
     this.props.dispatch(addCard({ key, card }));
-    // saveCard(deck, card);
+    addQuestion({ deck: deck, question: card })
     this.setState(() => ({ question: "", answer: "" }));
     this.props.navigation.goBack();
   }
