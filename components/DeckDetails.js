@@ -58,7 +58,6 @@ class DeckDetails extends Component {
                   {
                     text: 'Delete',
                     onPress: () => {
-                      console.log(JSON.stringify(Object.keys(this.props))) // TODO REMOVE
                       removeEntry(currentDeckName)
                       this.props.dispatch(removeDeck(deck))
                       this.props.navigation.goBack()

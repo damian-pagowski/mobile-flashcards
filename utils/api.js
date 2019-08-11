@@ -9,7 +9,6 @@ export function fetchData () {
 export function addQuestion ({ deck, question }) {
   const entry = { ...deck }
   entry.cards = [...entry.cards, question]
-  console.log('updated deck', JSON.stringify(entry))
   return saveEntry({ entry, key: deck.name })
 }
 

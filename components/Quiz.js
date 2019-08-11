@@ -116,19 +116,12 @@ class Quiz extends Component {
     } else {
       this.setState({ ...this.state, isFinished: true });
     }
-    console.log("SCORES>>", this.state.scores);
-    console.log("CURRENT>>", this.state.current);
-    console.log("NBR OF Q>>", this.props.questions.length);
   }
 }
 
 const mapStateToProps = (state, props) => {
   const deckName = props.navigation.getParam("deckName", "none");
   const questions = state[deckName].cards;
-
-  console.log("deckName: ", deckName);
-  console.log("state: ", JSON.stringify(state[deckName].cards));
-
   return {
     deckName,
     questions,
